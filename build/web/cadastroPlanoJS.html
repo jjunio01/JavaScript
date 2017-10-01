@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Slownet - Planos</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <script>
+
+            var div = document.createElement("div");
+            div.setAttribute("id", "div");
+            document.body.appendChild(div);
+
+            criarFormulario();
+
+            function criarFormulario() {
+
+                var div = document.createElement("div");
+                document.body.replaceChild(div, document.getElementById("div"));
+                document.getElementsByTagName("div")[0].setAttribute("id", "div");
+                var h1 = document.createElement("h1");
+                h1.innerHTML = "Planos SlowNet";
+                document.getElementById("div").appendChild(h1);
+
+                var form = document.createElement("form");
+                form.setAttribute("id", "form");
+                form.setAttribute("method", "get");
+                form.setAttribute("action", "#");
+                document.getElementById("div").appendChild(form);
+
+                document.getElementById("form").appendChild(document.createTextNode("Codigo: "));
+                var codigo = document.createElement("input");
+                codigo.setAttribute("type", "text");
+                codigo.setAttribute("name", "codigo");
+                document.getElementById("form").appendChild(codigo);
+                document.getElementById("form").appendChild(document.createElement("br"));
+
+                document.getElementById("form").appendChild(document.createTextNode("Nome: "));
+                var nome = document.createElement("input");
+                nome.setAttribute("type", "text");
+                nome.setAttribute("name", "nome");
+                document.getElementById("form").appendChild(nome);
+                document.getElementById("form").appendChild(document.createElement("br"));
+
+                document.getElementById("form").appendChild(document.createTextNode("Descricao "));
+                var descricao = document.createElement("input");
+                descricao.setAttribute("type", "text");
+                descricao.setAttribute("name", "descricao");
+                document.getElementById("form").appendChild(descricao);
+                document.getElementById("form").appendChild(document.createElement("br"));
+
+                document.getElementById("form").appendChild(document.createTextNode("Valor Mensal: R$"));
+                var valorMensal = document.createElement("input");
+                valorMensal.setAttribute("type", "text");
+                valorMensal.setAttribute("name", "valorMensal");
+                document.getElementById("form").appendChild(valorMensal);
+                document.getElementById("form").appendChild(document.createElement("br"));
+
+                var submit = document.createElement("button");
+                submit.innerHTML = "Cadastrar Plano";
+                submit.addEventListener("click", cadastrarPlano);
+                document.getElementById("div").appendChild(submit);
+                var button = document.createElement("button");
+                button.innerHTML = "Mostrar Planos";
+                button.addEventListener("click", mostrarPlanos);
+                document.getElementById("div").appendChild(button);
+            }
+
+            function cadastrarPlano() {
+
+                var xmlHttp = new XMLHttpRequest();
+                xmlHttp.onreadystatechange = function () {
+                    if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
+                        window.alert("ERRO");
+                    }
+                };
+                var codigo = document.getElementsByName("codigo")[0].value;
+                var nome = document.getElementsByName("nome")[0].value;
+                var descricao = document.getElementsByName("descricao")[0].value;
+                var valorMensal = document.getElementById("valorMensal")[0].value;
+                xmlHttp.open('GET', 'CadastroPlanoServlet?codigo=' + codigo + '&nome=' + nome + '&descricao=' + descricao + '&valorMensal' + valorMensal, true);
+                xmlHttp.send();
+            }
+
+            function mostrarPlanos() {
+
+                var xmlHttp = new XMLHttpRequest();
+                xmlHttp.onreadystatechange = function () {
+                    if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
+                        var div = document.createElement("div");
+                        document.body.replaceChild(div, document.getElementById("div"));
+                        document.getElementsByTagName("div")[0].setAttribute("id", "div");
+                        var h1 = document.createElement("h1");
+                        h1.innerHTML = "Planos da slowNet";
+                        document.getElementById("div").appendChild(h1);
+                        var table = document.createElement("table");
+                        table.setAttribute("border", "1");
+                        table.setAttribute("id", "tabela");
+                        var tr = document.createElement("tr");
+                        var th = document.createElement("th");
+                        th.innerHTML = "Código";
+                        tr.appendChild(th);
+                        var th = document.createElement("th");
+                        th.innerHTML = "Nome";
+                        tr.appendChild(th);
+                        var th = document.createElement("th");
+                        th.innerHTML = "Descrição";
+                        tr.appendChild(th);
+                        var th = document.createElement("th");
+                        th.innerHTML = "Valor Mensal";
+                        tr.appendChild(th);
+                        var th = document.createElement("th");
+                        th.innerHTML = "Opções";
+                        tr.appendChild(th);
+                        table.appendChild(tr);
+                        var obj = JSON.parse(xmlHttp.responseText);
+                        for (var i = 0; i < obj.planos.length; i++) {
+                            var tr = document.createElement("tr");
+                            var codigo = document.createElement("td");
+                            codigo.innerHTML = obj.planos[i].codigo;
+                            tr.appendChild(codigo);
+                            var nome = document.createElement("td");
+                            nome.innerHTML = obj.planos[i].nome;
+                            tr.appendChild(nome);
+                            var descricao = document.createElement("td");
+                            descricao.innerHTML = obj.planos[i].funcao;
+                            tr.appendChild(descricao);
+                            var valorMensal = document.createElement("td");
+                            valorMensal.innerHTML = obj.planos[i].funcao;
+                            tr.appendChild(valorMensal);
+                            var cont = i;
+                            var opcoes = document.createElement("td");
+                            var excluir = document.createElement("button");
+                            excluir.innerHTML = "Excluir";
+                            excluir.addEventListener("click", function () {
+                                apagarFuncionario(obj.planos[cont].codigo);
+                            });
+                            opcoes.appendChild(excluir);
+                            var visualizar = document.createElement("button");
+                            visualizar.innerHTML = "Visualizar";
+                            visualizar.addEventListener("click", function () {
+                                visualizarFuncionario(obj.planos[cont]);
+                            });
+                            opcoes.appendChild(visualizar);
+                            var editar = document.createElement("button");
+                            editar.innerHTML = "Editar";
+                            editar.addEventListener("click", function () {
+                                alterarDados(obj.planos[cont]);
+                            });
+                            opcoes.appendChild(editar);
+                            tr.appendChild(opcoes);
+                            table.appendChild(tr);
+                        }
+                        document.getElementById("div").appendChild(table);
+                        document.getElementById("div").appendChild(document.createElement("br"));
+                        var botao = document.createElement("button");
+                        botao.innerHTML = "Pagina inicial";
+                        botao.addEventListener("click", index);
+                        document.getElementById("div").appendChild(botao);
+                    }
+                };
+                xmlHttp.open('GET', 'MostraPlanoServlet', true);
+                xmlHttp.send();
+            }
+        </script>
+    </body>
+</html>

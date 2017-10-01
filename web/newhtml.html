@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+    </head>
+    <body>
+        <script>
+           
+           criarFormulario();
+           
+           var divMenu = document.createElement("div");
+           divMenu.setAttribute("style","width:100%;position:relative");
+           document.body.appendChild(divMenu);
+           
+           var divContent = document.createElement("div");
+           divContent.setAttribute("style","width:100%;position:relative");
+           document.body.appendChild(divContent);
+            
+            function criarFormulario(){
+                
+                var h1 = document.createElement("h1");
+                
+                h1.innerHTML = "Cadastro de cliente";
+                document.body.appendChild(h1);
+            
+                var form = document.createElement("form");
+                form.setAttribute("method","post");
+                
+                form.appendChild(document.createTextNode("Codigo:"));
+                var fieldCodigo = document.createElement("input");
+                
+                fieldCodigo.setAttribute("type","text");
+                fieldCodigo.setAttribute("name","codigo");
+                
+                form.appendChild(fieldCodigo);
+                form.appendChild(document.createElement("br"));
+                
+                form.appendChild(document.createTextNode("CPF:"));
+                var fieldCodigo = document.createElement("input");
+                
+                fieldCodigo.setAttribute("type","text");
+                fieldCodigo.setAttribute("name","cpf");
+                
+                form.appendChild(fieldCodigo);
+                form.appendChild(document.createElement("br"));
+                
+                form.appendChild(document.createTextNode("Nome:"));
+                var fieldCodigo = document.createElement("input");
+                
+                fieldCodigo.setAttribute("type","text");
+                fieldCodigo.setAttribute("name","nome");
+                
+                form.appendChild(fieldCodigo);
+                form.appendChild(document.createElement("br"));
+                
+                var buttonEnviar = document.createElement("button");
+                buttonEnviar.appendChild(document.createTextNode("cadastrar"));
+                
+                buttonEnviar.addEventListener("click",function(){
+                    var inputs = document.forms[0].getElementsByTagName("input");
+                    
+                    var codigo = inputs[0].value;
+                    var cpf = inputs[1].value;
+                    var nome = inputs[2].value;
+                    
+                    var reply = enviarDados(codigo,nome,cpf);
+                    
+                    alert(reply);
+                    
+                    document.body.innerHTML = reply;
+                });
+                
+                form.appendChild(buttonEnviar);
+                
+                document.body.appendChild(form);
+            }
+            
+            function enviarDados(codigo,nome,cpf){
+                
+                var httpReq = new XMLHttpRequest();
+                
+                httpReq.onreadystatechange = function(){
+                    
+                    if(httpReq.readyState === 4 && httpReq.status === 200){
+                        return httpReq.responseText;
+                    }
+                    
+                };
+                
+                httpReq.open("get","CadastroClienteServlet?codigo="+codigo+"&cpf="+cpf+"&nome="+nome);
+               
+                httpReq.send();
+                
+            }
+            
+        </script>
+    </body>
+</html>
