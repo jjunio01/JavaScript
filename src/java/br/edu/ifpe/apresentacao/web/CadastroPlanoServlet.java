@@ -8,6 +8,7 @@ package br.edu.ifpe.apresentacao.web;
 import br.edu.ifpe.controladores.Fachada;
 import br.edu.ifpe.negocio.Plano;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,11 +37,23 @@ public class CadastroPlanoServlet extends HttpServlet {
         int codigo = Integer.parseInt(request.getParameter("codigo"));
         String nome = request.getParameter("nome");
         String descricao = request.getParameter("descricao");
-        double valorMensal = Double.parseDouble(request.getParameter("valorMensal"));
+        String valorMensal = request.getParameter("valorMensal");
+        Plano p = new Plano(codigo, nome, descricao, valorMensal);
 
-        Fachada.getInstance().inserir(new Plano(codigo, nome, descricao, valorMensal));
+        Fachada.getInstance().inserir(p);
 
-        response.getOutputStream().print("esse carai pegou");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>pegou</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

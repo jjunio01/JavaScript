@@ -56,9 +56,7 @@ public class MostraPlanoServlet extends HttpServlet {
                         + "<td>" + p.getNome() + "</td>"
                         + "<td>" + p.getDescricao() + "</td>"
                         + "<td>" + p.getValorMensal() + "</td>"
-                        + "<td><a href='VisualizaClienteServlet?codigo=" + p.getCodigo() + "'>visualizar</a> "
-                        + "<a href='VisualizaAlteracaoClienteServlet?codigo=" + p.getCodigo() + "'>alterar</a> "
-                        + "<a href='ExcluirClienteServlet?codigo=" + p.getCodigo() + "'>excluir</a></td></tr>");
+                );
 
             }
             out.println("</table>");

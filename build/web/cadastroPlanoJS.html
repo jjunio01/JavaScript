@@ -16,9 +16,7 @@ and open the template in the editor.
             var div = document.createElement("div");
             div.setAttribute("id", "div");
             document.body.appendChild(div);
-
             criarFormulario();
-
             function criarFormulario() {
 
                 var div = document.createElement("div");
@@ -27,41 +25,35 @@ and open the template in the editor.
                 var h1 = document.createElement("h1");
                 h1.innerHTML = "Planos SlowNet";
                 document.getElementById("div").appendChild(h1);
-
                 var form = document.createElement("form");
                 form.setAttribute("id", "form");
                 form.setAttribute("method", "get");
-                form.setAttribute("action", "#");
+                // form.setAttribute("action", "#");
                 document.getElementById("div").appendChild(form);
-
                 document.getElementById("form").appendChild(document.createTextNode("Codigo: "));
                 var codigo = document.createElement("input");
                 codigo.setAttribute("type", "text");
                 codigo.setAttribute("name", "codigo");
                 document.getElementById("form").appendChild(codigo);
                 document.getElementById("form").appendChild(document.createElement("br"));
-
                 document.getElementById("form").appendChild(document.createTextNode("Nome: "));
                 var nome = document.createElement("input");
                 nome.setAttribute("type", "text");
                 nome.setAttribute("name", "nome");
                 document.getElementById("form").appendChild(nome);
                 document.getElementById("form").appendChild(document.createElement("br"));
-
                 document.getElementById("form").appendChild(document.createTextNode("Descricao "));
                 var descricao = document.createElement("input");
                 descricao.setAttribute("type", "text");
                 descricao.setAttribute("name", "descricao");
                 document.getElementById("form").appendChild(descricao);
                 document.getElementById("form").appendChild(document.createElement("br"));
-
                 document.getElementById("form").appendChild(document.createTextNode("Valor Mensal: R$"));
                 var valorMensal = document.createElement("input");
                 valorMensal.setAttribute("type", "text");
                 valorMensal.setAttribute("name", "valorMensal");
                 document.getElementById("form").appendChild(valorMensal);
                 document.getElementById("form").appendChild(document.createElement("br"));
-
                 var submit = document.createElement("button");
                 submit.innerHTML = "Cadastrar Plano";
                 submit.addEventListener("click", cadastrarPlano);
@@ -74,17 +66,26 @@ and open the template in the editor.
 
             function cadastrarPlano() {
 
+                //  window.alert(document.getElementsByName("valorMensal")[0].value);
                 var xmlHttp = new XMLHttpRequest();
                 xmlHttp.onreadystatechange = function () {
                     if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
-                        window.alert("ERRO");
+                        document.getElementById("div").innerHTML = xmlHttp.responseText;
+                        var botao = document.createElement("button");
+                        botao.innerHTML = "Pagina inicial";
+                        botao.addEventListener("click", index);
+                        document.getElementById("div").appendChild(botao);
+                        var botao = document.createElement("button");
+                        botao.innerHTML = "Mostrar Planos";
+                        botao.addEventListener("click", mostrarPlanos);
+                        document.getElementById("div").appendChild(botao);
                     }
                 };
                 var codigo = document.getElementsByName("codigo")[0].value;
                 var nome = document.getElementsByName("nome")[0].value;
                 var descricao = document.getElementsByName("descricao")[0].value;
-                var valorMensal = document.getElementById("valorMensal")[0].value;
-                xmlHttp.open('GET', 'CadastroPlanoServlet?codigo=' + codigo + '&nome=' + nome + '&descricao=' + descricao + '&valorMensal' + valorMensal, true);
+                var valorMensal = document.getElementsByName("valorMensal")[0].value;
+                xmlHttp.open('GET', 'CadastroPlanoServlet?codigo=' + codigo + '&nome=' + nome + '&descricao=' + descricao + '&valorMensal' + valorMensal);
                 xmlHttp.send();
             }
 
@@ -97,7 +98,7 @@ and open the template in the editor.
                         document.body.replaceChild(div, document.getElementById("div"));
                         document.getElementsByTagName("div")[0].setAttribute("id", "div");
                         var h1 = document.createElement("h1");
-                        h1.innerHTML = "Planos da slowNet";
+                        h1.innerHTML = "Planos da SlowNet";
                         document.getElementById("div").appendChild(h1);
                         var table = document.createElement("table");
                         table.setAttribute("border", "1");
@@ -120,38 +121,38 @@ and open the template in the editor.
                         tr.appendChild(th);
                         table.appendChild(tr);
                         var obj = JSON.parse(xmlHttp.responseText);
-                        for (var i = 0; i < obj.planos.length; i++) {
+                        for (var i = 0; i < obj.length; i++) {
                             var tr = document.createElement("tr");
                             var codigo = document.createElement("td");
-                            codigo.innerHTML = obj.planos[i].codigo;
+                            codigo.innerHTML = obj[i].codigo;
                             tr.appendChild(codigo);
                             var nome = document.createElement("td");
-                            nome.innerHTML = obj.planos[i].nome;
+                            nome.innerHTML = obj[i].nome;
                             tr.appendChild(nome);
                             var descricao = document.createElement("td");
-                            descricao.innerHTML = obj.planos[i].funcao;
+                            descricao.innerHTML = obj[i].funcao;
                             tr.appendChild(descricao);
                             var valorMensal = document.createElement("td");
-                            valorMensal.innerHTML = obj.planos[i].funcao;
+                            valorMensal.innerHTML = obj[i].funcao;
                             tr.appendChild(valorMensal);
                             var cont = i;
                             var opcoes = document.createElement("td");
                             var excluir = document.createElement("button");
                             excluir.innerHTML = "Excluir";
                             excluir.addEventListener("click", function () {
-                                apagarFuncionario(obj.planos[cont].codigo);
+                                apagarFuncionario(obj[cont].codigo);
                             });
                             opcoes.appendChild(excluir);
                             var visualizar = document.createElement("button");
                             visualizar.innerHTML = "Visualizar";
                             visualizar.addEventListener("click", function () {
-                                visualizarFuncionario(obj.planos[cont]);
+                                visualizarFuncionario(obj[cont]);
                             });
                             opcoes.appendChild(visualizar);
                             var editar = document.createElement("button");
                             editar.innerHTML = "Editar";
                             editar.addEventListener("click", function () {
-                                alterarDados(obj.planos[cont]);
+                                alterarDados(obj[cont]);
                             });
                             opcoes.appendChild(editar);
                             tr.appendChild(opcoes);
@@ -165,9 +166,10 @@ and open the template in the editor.
                         document.getElementById("div").appendChild(botao);
                     }
                 };
-                xmlHttp.open('GET', 'MostraPlanoServlet', true);
+                xmlHttp.open('GET', 'MostraPlanoServlet');
                 xmlHttp.send();
             }
         </script>
+
     </body>
 </html>

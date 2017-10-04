@@ -14,25 +14,13 @@ public class Plano {
     private int codigo;
     private String nome;
     private String descricao;
-    private double valorMensal;
+    private String valorMensal;
 
-    public Plano(int codigo, String nome, String descricao, double valorMensal) {
+    public Plano(int codigo, String nome, String descricao, String valorMensal) {
         this.codigo = codigo;
         this.nome = nome;
         this.descricao = descricao;
         this.valorMensal = valorMensal;
-    }
-
-    public Plano() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public Plano(String nome, String descricao, double valorMensal) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public Plano(String nome, String descricao) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public int getCodigo() {
@@ -59,11 +47,11 @@ public class Plano {
         this.descricao = descricao;
     }
 
-    public double getValorMensal() {
+    public String getValorMensal() {
         return valorMensal;
     }
 
-    public void setValorMensal(double valorMensal) {
+    public void setValorMensal(String valorMensal) {
         this.valorMensal = valorMensal;
     }
 

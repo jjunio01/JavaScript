@@ -13,7 +13,7 @@ import java.util.List;
  * @author 1860915
  */
 public class Contrato {
-    
+
     private int codigo;
     private Date adesao;
     private Funcionario funcionario;
@@ -27,8 +27,6 @@ public class Contrato {
         this.cliente = cliente;
         this.planos = planos;
     }
-    
-    
 
     public int getCodigo() {
         return codigo;
@@ -69,15 +67,14 @@ public class Contrato {
     public void setPlanos(List<Plano> planos) {
         this.planos = planos;
     }
-    
-    public double getValorContrato(){
+
+    public double getValorContrato() {
         double valorAuxiliar = 0;
-        for(Plano plano:planos){
-            valorAuxiliar+=plano.getValorMensal();
+        for (Plano plano : planos) {
+
+            valorAuxiliar += Double.parseDouble(plano.getValorMensal());
         }
         return valorAuxiliar;
     }
-    
-    
-    
+
 }

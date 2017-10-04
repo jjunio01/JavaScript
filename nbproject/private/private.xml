@@ -4,7 +4,8 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/Jose%20Junio/Documents/NetBeansProjects/SlownetJunio/web/cadastroPlanoJS.html</file>
-            <file>file:/C:/Users/Jose%20Junio/Documents/NetBeansProjects/SlownetJunio/test/Main.java</file>
+            <file>file:/C:/Users/Jose%20Junio/Documents/NetBeansProjects/SlownetJunio/src/java/br/edu/ifpe/apresentacao/web/CadastroPlanoServlet.java</file>
+            <file>file:/C:/Users/Jose%20Junio/Documents/NetBeansProjects/SlownetJunio/src/java/br/edu/ifpe/apresentacao/web/MostraPlanoServlet.java</file>
         </group>
     </open-files>
 </project-private>
